@@ -5,7 +5,6 @@ const {
     commands
 } = require('../command')
 
-
 cmd({
     pattern: "fb",
     alias: ["facebook"],
@@ -14,18 +13,17 @@ cmd({
     desc: 'Download videos from facebook',
     category: "download",
     filename: __filename
-
 },
 
-    async (conn, m, mek, { from, q, reply }) => {
-        if (!q || !q.includes('facebook.com')) return await reply('*Please enter a valid facebook url!*');
-        const url = q.replace(/\?mibextid=[^&]*/, '');
-        getFbVideoInfo(url)
-            .then((result) => {
-                const msg = `\`✦ 𝗙𝗔𝗖𝗘𝗕𝗢𝗢𝗞 𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗥 ✦\`
-`
+async (conn, m, mek, { from, q, reply }) => {
+    if (!q || !q.includes('facebook.com')) return await reply('*Please enter a valid facebook url!*');
+    const url = q.replace(/\?mibextid=[^&]*/, '');
+    getFbVideoInfo(url)
+        .then((result) => {
+            const msg = `\`✦ 𝗙𝗔𝗖𝗘𝗕𝗢𝗢𝗞 𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗥 ✦\``
 
-                let buttons = [{
+            let buttons = [
+                {
                     name: "cta_url",
                     buttonParamsJson: JSON.stringify({
                         display_text: 'Watch on Facebook',
@@ -46,23 +44,40 @@ cmd({
                         display_text: "HD Quality",
                         id: ".downfb " + result.hd
                     }),
+                },
+                {
+                    name: "quick_reply",
+                    buttonParamsJson: JSON.stringify({
+                        display_text: "Back To Menu",
+                        id: ".menu"
+                    }),
+                },
+                {
+                    name: "quick_reply",
+                    buttonParamsJson: JSON.stringify({
+                        display_text: "Download Another Video",
+                        id: ".fb"
+                    }),
                 }
-                ]
-                let message = {
-                    image: result.thumbnail,
-                    header: '',
-                    footer: config.FOOTER,
-                    body: msg
-
+            ];
+     buttons: [{
+                buttonId: ".menu",
+                buttonText: {
+                    displayText: "Back To Menu"
                 }
-                return conn.sendButtonMessage(from, buttons, m, message)
-            }).catch((err) => {
-                console.log(err)
-            })
+            }]
+            let message = {
+                image: result.thumbnail,
+                header: '',
+                footer: config.FOOTER,
+                body: msg
+            };
 
-
-    });
-
+            return conn.sendButtonMessage(from, buttons, m, message);
+        }).catch((err) => {
+            console.log(err)
+        })
+});
 
 cmd({
     pattern: "downfb",
@@ -71,15 +86,15 @@ cmd({
     filename: __filename
 },
 
-    async (conn, mek, m, { from, q, reply }) => {
-        try {
-            if (!q) return await reply('*Not Found!*')
+async (conn, mek, m, { from, q, reply }) => {
+    try {
+        if (!q) return await reply('*Not Found!*')
 
-            await conn.sendMessage(from, { video: { url: q } }, { quoted: mek })
-            await conn.sendMessage(from, { react: { text: '✅', key: mek.key } })
+        await conn.sendMessage(from, { video: { url: q } }, { quoted: mek })
+        await conn.sendMessage(from, { react: { text: '✅', key: mek.key } })
 
-        } catch (e) {
-            reply('*Error !!*')
-            console.log(e)
-        }
-    })
+    } catch (e) {
+        reply('*Error !!*')
+        console.log(e)
+    }
+});
