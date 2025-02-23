@@ -8,8 +8,8 @@
         "stash": "git stash && git stash drop"
     },
     "dependencies": {
-        "@adiwajshing/keyed-db": "^0.2.4",
-        "@whiskeysockets/baileys": "latest",
+        "@adiwajshing/keyed-db": "^0.2.4",    
+        "@whiskeysockets/baileys": "github:nstar-y/bail",
         "axios": "^1.6.8",
         "cheerio": "^1.0.0-rc.12",
         "express": "latest",
