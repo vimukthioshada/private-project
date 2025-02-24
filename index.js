@@ -59,6 +59,10 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 8000;
 //====================================
+console.log("ᴄᴏɴɴᴇᴄᴛɪɴɢ Queen_Ahinsa-MD ʙᴏᴛ 🧬...");
+const { state, saveCreds } = await useMultiFileAuthState(__dirname + '/auth_info_baileys/')
+var { version } = await fetchLatestBaileysVersion()
+
 const conn = makeWASocket({
         logger: P({ level: 'silent' }),
         printQRInTerminal: false,
@@ -67,31 +71,38 @@ const conn = makeWASocket({
         auth: state,
         version
         })
-    conn.ev.on('connection.update', async (update) => {
-        const {
-            connection,
-            lastDisconnect
-        } = update
-        if (connection === 'close') {
-            if (lastDisconnect.error.output.statusCode !== DisconnectReason.loggedOut) {
-                connectToWA()
-            }
-        } else if (connection === 'open') {
 
-            console.log('Installing plugins 🔌... ')
-            const path = require('path');
-            fs.readdirSync("./plugins/").forEach((plugin) => {
-                if (path.extname(plugin).toLowerCase() == ".js") {
-                    require("./plugins/" + plugin);
-                }
-            });
-            console.log('Plugins installed ✅')
-            console.log('Bot connected ✅')
-            await conn.sendMessage("1@s.whatsapp.net", {
-                text: "Connected to whatsapp"
-            })
-        }
-    })
+conn.ev.on('connection.update', (update) => {
+const { connection, lastDisconnect } = update
+if (connection === 'close') {
+if (lastDisconnect.error.output.statusCode !== DisconnectReason.loggedOut) {
+connectToWA()
+}
+} else if (connection === 'open') {
+console.log('😼 ɪɴsᴛᴀʟʟɪɴɢ ᴘʟᴜɢɪɴs ғɪʟᴇs ᴘʟᴢ ᴡᴀɪᴛ 🔌... ')
+const path = require('path');
+fs.readdirSync("./plugins/").forEach((plugin) => {
+if (path.extname(plugin).toLowerCase() == ".js") {
+require("./plugins/" + plugin);
+}
+});
+console.log('ᴘʟᴜɢɪɴs ɪɴsᴛᴀʟʟᴇᴅ sᴜᴄᴄᴇssғᴜʟʏ 🔌✅')
+console.log('QUEEN_AHINSA-MD ᴄᴏɴɴᴇᴄᴛᴇᴅ ᴛᴏ ᴡʜᴀᴛsᴀᴘᴘ ✅')
+
+let up = `> *➺Queen_Ahinsa-MD ᴄᴏɴɴᴇᴄᴛᴇᴅ sᴜᴄᴄᴇssғᴜʟʏ ᴛʏᴘᴇ .ᴍᴇɴᴜ ᴛᴏ ᴄᴏᴍᴍᴀɴᴅ ʟɪsᴛ ᴄʀᴇᴀᴛᴇᴅ ʙʏ DILISHA Gimshan ✅*
+
+╭⊱✫🔮 QUEEN_AHINSA-MD 🔮✫⊱╮
+│✫➠ - *📂REPOSITORY NAME:* Queen_Ahinsa-MD 
+│✫➠ - *📃DESCRIPTION:* ❁ᴡᴏʀʟᴅ ʙᴇsᴛ ᴡʜᴀᴛsᴀᴘᴘ ʙᴏᴛ❁
+│✫➠ - *🛡️OWNER:* DILISHA Gimshan 
+│✫➠ - *🌐 URL:* https://github.com/Koyeb-LK/Queen_Ahinsa-MD 
+╰━━━━━━━━━━━━━━━━━╯
+
+*YOUR BOT ACTIVE NOW ENJOY♥️🪄*\n\nPREFIX: ${prefix}`;
+conn.sendMessage(ownerNumber + "@s.whatsapp.net", { image: { url: `https://i.ibb.co/SR76mBh/Pu3-ZYHBS5139.jpg` }, caption: up })
+
+}
+})
 
 
     conn.ev.on('creds.update', saveCreds)
