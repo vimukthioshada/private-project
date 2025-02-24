@@ -9,5 +9,5 @@ function convertToBool(text, fault = 'true') {
 
 
 module.exports = {
-    SESSION_ID: false
+    SESSION_ID: process.env.SESSION_ID ||  "NEBULA=uEJxhLJI#CcxWTMdtTXlmXAux6RimLJGvWjXNceZR-CldZ7gHhhw",
 };
