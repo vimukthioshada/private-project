@@ -40,7 +40,7 @@ const {
 const path = require('path')
 const msgRetryCounterCache = new NodeCache()
 const prefix = '.'
-const ownerNumber = ['94725881990']
+const ownerNumber = ['94755773910']
 //===================SESSION============================
 if (!fs.existsSync(__dirname + '/auth_info_baileys/creds.json')) {
     if (config.SESSION_ID) {
